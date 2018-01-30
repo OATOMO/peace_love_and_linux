@@ -78,6 +78,19 @@
     <string>del</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="savePushButton">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>340</y>
+     <width>45</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>save</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

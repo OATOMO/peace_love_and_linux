@@ -87,3 +87,30 @@ void lookoverImage::on_delPushButton_clicked()
 
 	emit channgeImageN();
 }
+
+void lookoverImage::on_savePushButton_clicked()
+{
+	QString file_path = QFileDialog::getSaveFileName(this,tr("save image"),"",tr("(*.imgl)"));
+	if(file_path.isNull()){
+		return ;
+	}
+	if(QFile::exists(file_path)){
+		qDebug() << "exists";
+		return ;
+	}
+	QFile imglFile;
+	QString imglName = file_path+".imgl";
+	imglFile.setFileName(imglName);
+	if(!imglFile.open(QIODevice::WriteOnly|QIODevice::Text)){
+		qDebug()<<"打开失败";
+	}
+	imglFile.write((QString::number(m_saveImageAll->size(),10) + "\r\n").toStdString().c_str());
+	imglFile.write(QString::number(m_saveImageAll->size(),10).toStdString().c_str());
+
+	for(int i = 0;i < m_saveImageAll->size();i++){
+		QString imageName = file_path+QString::number(i,10)+QString(".jpg");
+		cv::imwrite(imageName.toStdString(),(*m_saveImageAll)[i]);
+	}
+
+		imglFile;close();
+}

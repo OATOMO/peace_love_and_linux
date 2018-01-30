@@ -5,6 +5,7 @@
 #include <vector>
 #include <opencv2/opencv.hpp>
 #include <QDebug>
+#include <QFileDialog>
 
 namespace Ui {
 	class lookoverImage;
@@ -36,6 +37,8 @@ private slots:
 	void on_afterPushButton_clicked();
 
 	void on_delPushButton_clicked();
+
+	void on_savePushButton_clicked();
 
 private:
 	Ui::lookoverImage *ui;
