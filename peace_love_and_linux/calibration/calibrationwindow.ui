@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>calibrationWindow</class>
+ <widget class="QDialog" name="calibrationWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>827</width>
+    <height>551</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLabel" name="imageLabel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>640</width>
+     <height>480</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>imageLabel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="capturePushButton">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>220</y>
+     <width>86</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>capture</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="saveImageNumberLabel">
+   <property name="geometry">
+    <rect>
+     <x>723</x>
+     <y>260</y>
+     <width>31</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>saveImageNumber</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>10</y>
+     <width>88</width>
+     <height>151</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QComboBox" name="selectVideoComboBox"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QComboBox" name="selectFMTComboBox"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QPushButton" name="startPushButton">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>180</y>
+     <width>86</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>start</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="lookoverPushButton">
+   <property name="geometry">
+    <rect>
+     <x>760</x>
+     <y>256</y>
+     <width>51</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>lookover</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="resetPushButton">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>380</y>
+     <width>86</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>reset</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
