@@ -6,6 +6,13 @@
 #include <opencv2/opencv.hpp>
 #include <QDebug>
 #include <QFileDialog>
+//3rd
+#include "cjson/cJSON.h"
+
+
+//cJSON key
+#define IMAGE_NUMBER "image_n"
+#define IMAGE_PATH   "image_path"
 
 namespace Ui {
 	class lookoverImage;

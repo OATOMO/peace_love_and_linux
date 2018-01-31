@@ -109,6 +109,19 @@
     <string>reset</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="openImglPushButton">
+   <property name="geometry">
+    <rect>
+     <x>722</x>
+     <y>340</y>
+     <width>81</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>openImgl</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

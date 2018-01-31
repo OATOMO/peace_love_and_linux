@@ -96,6 +96,8 @@ private slots:
 
 	void channgeImageN(void);
 
+	void on_openImglPushButton_clicked();
+
 private:
 	Ui::calibrationWindow *ui;
 

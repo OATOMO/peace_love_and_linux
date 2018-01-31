@@ -104,13 +104,23 @@ void lookoverImage::on_savePushButton_clicked()
 	if(!imglFile.open(QIODevice::WriteOnly|QIODevice::Text)){
 		qDebug()<<"打开失败";
 	}
-	imglFile.write((QString::number(m_saveImageAll->size(),10) + "\r\n").toStdString().c_str());
-	imglFile.write(QString::number(m_saveImageAll->size(),10).toStdString().c_str());
+	cJSON * root_j = cJSON_CreateObject();
+	cJSON_AddNumberToObject(root_j,IMAGE_NUMBER,m_saveImageAll->size());
+	cJSON * image_path_j = cJSON_CreateArray();
+
 
 	for(int i = 0;i < m_saveImageAll->size();i++){
 		QString imageName = file_path+QString::number(i,10)+QString(".jpg");
 		cv::imwrite(imageName.toStdString(),(*m_saveImageAll)[i]);
+		cJSON_AddItemToArray(image_path_j,cJSON_CreateString(imageName.toStdString().c_str()));
 	}
 
-		imglFile;close();
+	cJSON_AddItemToObject(root_j,IMAGE_PATH,image_path_j);
+
+	qDebug("%s\n",cJSON_Print(root_j));
+	imglFile.write(cJSON_Print(root_j));
+
+
+	cJSON_Delete(root_j);
+	imglFile.close();
 }

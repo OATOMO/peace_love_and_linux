@@ -297,3 +297,46 @@ void calibrationWindow::on_lookoverPushButton_clicked(){
 
 
 
+
+void calibrationWindow::on_openImglPushButton_clicked()
+{
+	QString fileName = QFileDialog::getOpenFileName(this,tr("save image"),"",tr("(*.imgl)"));
+	QFile imglFile;
+	imglFile.setFileName(fileName);
+	if(!imglFile.open(QIODevice::ReadOnly|QIODevice::Text)){
+		qDebug()<<"打开失败";
+	}
+
+	QString rootString = imglFile.readAll();
+
+	cJSON * root_j = cJSON_Parse(rootString.toStdString().c_str());
+
+
+	cJSON * image_n_j = cJSON_GetObjectItem(root_j,IMAGE_NUMBER);
+	int image_n = image_n_j->valueint;
+
+	cJSON * image_path_j = cJSON_GetObjectItem(root_j,IMAGE_PATH);
+	if(image_n != cJSON_GetArraySize(image_path_j)){
+		qDebug() << "format error";
+		cJSON_Delete(root_j);
+		imglFile.close();
+		return ;
+	}
+
+	m_saveImageAll.clear();
+
+	for(int i = 0;i < image_n;i++){
+		cJSON * tmpPath_j = cJSON_GetArrayItem(image_path_j,i);
+		QString tmpPath = tmpPath_j->valuestring;
+		cv::Mat tmpImage = cv::imread(tmpPath.toStdString());
+		m_saveImageAll.push_back(tmpImage);
+	}
+
+	saveNumber = image_n;
+	setSaveImageNumberLabel(saveNumber);
+
+
+	cJSON_Delete(root_j);
+	imglFile.close();
+
+}
