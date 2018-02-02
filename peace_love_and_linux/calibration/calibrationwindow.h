@@ -30,6 +30,7 @@ extern "C"{
 //self
 #include "videoCapture/videocapture.h"
 #include "calibration/lookoverimage.h"
+#include "calibration/operationcalibration.h"
 
 //map struct initInfo_D member vaildFlag
 #define VAILD 	1;
@@ -97,6 +98,8 @@ private slots:
 	void channgeImageN(void);
 
 	void on_openImglPushButton_clicked();
+
+	void on_calibrationPushButton_clicked();
 
 private:
 	Ui::calibrationWindow *ui;

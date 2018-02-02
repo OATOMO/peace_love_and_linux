@@ -340,3 +340,15 @@ void calibrationWindow::on_openImglPushButton_clicked()
 	imglFile.close();
 
 }
+
+void calibrationWindow::on_calibrationPushButton_clicked()
+{
+	if(m_saveImageAll.size() > 0){
+		operationCalibration * operationCal = new operationCalibration(m_saveImageAll,this);
+		operationCal->show();
+	}else{
+		QMessageBox::about(this,tr("warning"),tr("No pictures"));
+	}
+
+
+}

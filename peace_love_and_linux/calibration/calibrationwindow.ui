@@ -100,7 +100,7 @@
    <property name="geometry">
     <rect>
      <x>720</x>
-     <y>380</y>
+     <y>500</y>
      <width>86</width>
      <height>25</height>
     </rect>
@@ -112,14 +112,27 @@
   <widget class="QPushButton" name="openImglPushButton">
    <property name="geometry">
     <rect>
-     <x>722</x>
-     <y>340</y>
+     <x>720</x>
+     <y>310</y>
      <width>81</width>
      <height>25</height>
     </rect>
    </property>
    <property name="text">
     <string>openImgl</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="calibrationPushButton">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>350</y>
+     <width>81</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>calibration</string>
    </property>
   </widget>
  </widget>
