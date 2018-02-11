@@ -33,13 +33,13 @@
     <item>
      <widget class="QSpinBox" name="hSpinBox">
       <property name="value">
-       <number>5</number>
+       <number>6</number>
       </property>
      </widget>
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -59,11 +59,24 @@
     <item>
      <widget class="QSpinBox" name="wSpinBox">
       <property name="value">
-       <number>7</number>
+       <number>9</number>
       </property>
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QPushButton" name="caliPushButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>230</y>
+     <width>97</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>cali</string>
+   </property>
   </widget>
  </widget>
  <resources/>

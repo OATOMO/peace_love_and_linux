@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <opencv2/opencv.hpp>
 #include <vector>
+#include <QDebug>
 
 namespace Ui {
 	class operationCalibration;
@@ -30,18 +31,20 @@ class operationCalibration : public QDialog
 	Q_OBJECT
 
 public:
-	explicit operationCalibration(std::vector<cv::Mat>  &m_saveImageAll,QWidget *parent = 0);
+	explicit operationCalibration(std::vector<cv::Mat>  m_saveImageAll,QWidget *parent = 0);
 	~operationCalibration();
 //fun
 
 //data
-	std::vector<cv::Mat >  m_saveImageAll;
+	std::vector<cv::Mat>  m_saveImageAll;
 	CabOption m_cabOption;
 
 private slots:
 	void on_wSpinBox_valueChanged(int arg1);
 
 	void on_hSpinBox_valueChanged(int arg1);
+
+	void on_caliPushButton_clicked();
 
 private:
 	Ui::operationCalibration *ui;
