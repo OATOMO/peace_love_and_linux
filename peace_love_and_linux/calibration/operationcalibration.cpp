@@ -11,6 +11,7 @@ operationCalibration::operationCalibration(std::vector<cv::Mat>  m_saveImageAll,
 }
 
 void operationCalibration::initOptionUi(){
+	//初始化标定参数和界面
 	m_cabOption.w = ui->wSpinBox->value();
 	m_cabOption.h = ui->hSpinBox->value();
 	m_cabOption.squareSize = ui->squareSizeSpinBox->value();
@@ -59,13 +60,13 @@ void operationCalibration::on_patternComboBox_activated(const QString &arg1)
 
 	switch((int)m_map.value(arg1)){
 		case 1:
-			m_cabOption.pattern = CHESSBOARD;
+			m_cabOption.pattern = CHESSBOARD;				//棋盘格
 		break;
 		case 2:
-			m_cabOption.pattern = CIRCLES_GRID;
+			m_cabOption.pattern = CIRCLES_GRID;				//圆网格	
 		break;
 		case 3:
-			m_cabOption.pattern = ASYMMETRIC_CIRCLES_GRID;
+			m_cabOption.pattern = ASYMMETRIC_CIRCLES_GRID;	//非对称园网格
 		break;
 	}
 	qDebug() << m_cabOption.pattern;
@@ -89,18 +90,18 @@ void operationCalibration::on_caliPushButton_clicked()
 		std::vector<cv::Point2f> tmpPoint;
 		cv::cvtColor(m_saveImageAll[i],proImage,cv::COLOR_BGR2GRAY);
 
+		//找角点
 		cv::findChessboardCorners(proImage,cv::Size(m_cabOption.w,m_cabOption.h),tmpPoint,
 								  cv::CALIB_CB_ADAPTIVE_THRESH | cv::CALIB_CB_FAST_CHECK | cv::CALIB_CB_NORMALIZE_IMAGE);
 		qDebug("%d: Pix (%f,%f)",i,tmpPoint[0].x,tmpPoint[0].y);
-//		cv::drawChessboardCorners(proImage,cv::Size(m_cabOption.w,m_cabOption.h),tmpPoint,true);
-//		cv::imshow(QString::number(i,10).toStdString(),proImage);
 //		cv::TermCriteria termCriteria = cv::TermCriteria(cv::TermCriteria::MAX_ITER | cv::TermCriteria::EPS, 30, 0.1);
+		//提取亚像素角点
 		cv::cornerSubPix(proImage, tmpPoint, cvSize(11,11), cvSize(-1,-1), cv::TermCriteria(cv::TermCriteria::EPS+cv::TermCriteria::COUNT, 30, 0.1 ));
 		imagePoints.push_back(tmpPoint);
 		qDebug("%d: SubPix (%f,%f)",i,tmpPoint[0].x,tmpPoint[0].y);
 //		qDebug() << tmpPoint.size();
 
-
+		//显示
 		cv::drawChessboardCorners(proImage,cv::Size(m_cabOption.w,m_cabOption.h),tmpPoint,true);
 		cv::resize(proImage,proImage,cv::Size(320,240),0,0,cv::INTER_LINEAR);
 		QImage viewTemp(proImage.data,proImage.cols,proImage.rows,QImage::Format_Indexed8);
@@ -108,12 +109,15 @@ void operationCalibration::on_caliPushButton_clicked()
 
 	}
 
+	//固定fx/fy的比值，只将fy作为可变量，进行优化计算
 	if(ui->aspectRatioCheckBox->isChecked()){
 		flags |= cv::CALIB_FIX_ASPECT_RATIO;
 	}
+	//切向畸变系数（P1，P2）被设置为零并保持为零
 	if(ui->zeroTangentCheckBox){
 		flags |= cv::CALIB_ZERO_TANGENT_DIST;
 	}
+	//在进行优化时会固定光轴点，光轴点将保持为图像的中心点
 	if(ui->principalPointCheckBox){
 		flags |= cv::CALIB_FIX_PRINCIPAL_POINT;
 	}
@@ -126,6 +130,7 @@ void operationCalibration::on_caliPushButton_clicked()
 
 	distCoeffs = cv::Mat::zeros(8,1,CV_64F);
 
+	//找世界坐标中的点
 	objectPoints.resize(1);
 	calcChessboardCorners(cv::Size(m_cabOption.w,m_cabOption.h),
 						  m_cabOption.squareSize,
@@ -143,6 +148,8 @@ void operationCalibration::on_caliPushButton_clicked()
 		@distCoeffs:	畸变矩阵。输入一个Mat distCoeffs即可
 		rvecs:			旋转向量,应该输入一个Mat的vector,即vector<Mat> rvecs因为每个vector<Point3f>会得到一个rvecs
 		tvecs:			位移向量,和rvecs一样，也应该为vector tvecs
+
+		return:			重投影的总的均方根误差
 	*/
 	double rms = calibrateCamera(objectPoints, imagePoints, m_saveImageAll[0].size(),
 			cameraMatrix,distCoeffs, rvecs, tvecs, flags|cv::CALIB_FIX_K4|cv::CALIB_FIX_K5);

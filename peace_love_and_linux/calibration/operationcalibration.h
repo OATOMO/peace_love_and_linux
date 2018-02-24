@@ -47,7 +47,7 @@ public:
 	cv::Mat distCoeffs;								//畸变矩阵
 	std::vector<cv::Mat> rvecs;						//旋转向量
 	std::vector<cv::Mat> tvecs;						//位移向量
-	int flags;
+	int flags;										//标定函数所采用的模型
 
 private slots:
 	void on_wSpinBox_valueChanged(int arg1);
@@ -60,12 +60,13 @@ private slots:
 
 	void on_patternComboBox_activated(const QString &arg1);
 
+	void on_aspectRatioCheckBox_stateChanged(int arg1);
+
 	void on_caliPushButton_clicked();
 
 
 
 
-	void on_aspectRatioCheckBox_stateChanged(int arg1);
 
 private:
 	Ui::operationCalibration *ui;
