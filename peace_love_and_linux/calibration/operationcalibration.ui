@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>422</width>
+    <height>424</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>50</y>
+     <x>130</x>
+     <y>10</y>
      <width>105</width>
      <height>29</height>
     </rect>
@@ -42,8 +42,8 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>50</y>
+     <x>10</x>
+     <y>10</y>
      <width>105</width>
      <height>29</height>
     </rect>
@@ -69,7 +69,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>230</y>
+     <y>390</y>
      <width>97</width>
      <height>26</height>
     </rect>
@@ -77,6 +77,148 @@
    <property name="text">
     <string>cali</string>
    </property>
+  </widget>
+  <widget class="QLabel" name="imageLabel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>130</y>
+     <width>320</width>
+     <height>240</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>imageLabel</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>10</y>
+     <width>151</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>squareSize</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QDoubleSpinBox" name="squareSizeSpinBox">
+      <property name="value">
+       <double>1.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QCheckBox" name="aspectRatioCheckBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>100</y>
+     <width>111</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>aspectRatio</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="zeroTangentCheckBox">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>100</y>
+     <width>98</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>zeroTangent</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="principalPointCheckBox">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>100</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>principalPoint</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>60</y>
+     <width>171</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <item>
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>aspectRatio</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QDoubleSpinBox" name="aspectRatioSpinBox">
+      <property name="value">
+       <double>1.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>60</y>
+     <width>191</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_5">
+    <item>
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>pattern</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QComboBox" name="patternComboBox">
+      <item>
+       <property name="text">
+        <string>CHESSBOARD</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>CIRCLES_GRID</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>ASYMMETRIC_CIRCLES_GRID</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
