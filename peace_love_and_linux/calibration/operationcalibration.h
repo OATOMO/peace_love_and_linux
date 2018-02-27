@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QMap>
 #include <unistd.h>
+#include <QDateTime>
 
 namespace Ui {
 	class operationCalibration;
@@ -28,6 +29,11 @@ struct CabOption{
 	//						//flip the captured images around the horizontal axis
 };
 
+struct CabReturn{
+	std::vector<float > reprojErrs;
+	double totalAvgErr;
+};
+
 class operationCalibration : public QDialog
 {
 	Q_OBJECT
@@ -38,9 +44,19 @@ public:
 //fun
 	void initOptionUi();
 	void calcChessboardCorners(cv::Size boardSize, float squareSize, std::vector<cv::Point3f>& corners, Pattern patternType = CHESSBOARD);
+	void saveCameraParams();
+	//计算重投影误差
+	double computeReprojectionErrors(
+		const std::vector<std::vector<cv::Point3f> >& objectPoints,
+		const std::vector<std::vector<cv::Point2f> >& imagePoints,
+		const std::vector<cv::Mat>& rvecs, const std::vector<cv::Mat>& tvecs,
+		const cv::Mat& cameraMatrix, const cv::Mat& distCoeffs,
+		std::vector<float>& perViewErrors);
+
 //data
 	std::vector<cv::Mat>  m_saveImageAll;				//需要标定的原始图片
 	CabOption m_cabOption;								//标定参数集
+	CabReturn m_cabRet;
 	std::vector<std::vector<cv::Point3f> > objectPoints;	//世界坐标系中的点,由calcChessboardCorners求出
 	std::vector<std::vector<cv::Point2f> > imagePoints;	//其对应的图像中的点
 	cv::Mat cameraMatrix;								//内参矩阵

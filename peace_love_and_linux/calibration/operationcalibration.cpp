@@ -155,6 +155,13 @@ void operationCalibration::on_caliPushButton_clicked()
 			cameraMatrix,distCoeffs, rvecs, tvecs, flags|cv::CALIB_FIX_K4|cv::CALIB_FIX_K5);
 						///*|CALIB_FIX_K3*/|CALIB_FIX_K4|CALIB_FIX_K5);
 	qDebug("RMS error reported by calibrateCamera: %g\n", rms);
+
+	bool ok = cv::checkRange(cameraMatrix) && cv::checkRange(distCoeffs);
+
+	m_cabRet.totalAvgErr = computeReprojectionErrors(objectPoints,imagePoints,rvecs,tvecs,
+											cameraMatrix,distCoeffs,m_cabRet.reprojErrs);
+	saveCameraParams();
+
 }
 
 
@@ -190,5 +197,62 @@ void operationCalibration::calcChessboardCorners(cv::Size boardSize, float squar
 
 }
 
+//计算重投影误差
+double operationCalibration::computeReprojectionErrors(
+		const std::vector<std::vector<cv::Point3f> >& objectPoints,
+		const std::vector<std::vector<cv::Point2f> >& imagePoints,
+		const std::vector<cv::Mat>& rvecs, const std::vector<cv::Mat>& tvecs,
+		const cv::Mat& cameraMatrix, const cv::Mat& distCoeffs,
+		std::vector<float>& perViewErrors )
+{
+	std::vector<cv::Point2f> imagePoints2;
+	int i, totalPoints = 0;
+	double totalErr = 0, err;
+	perViewErrors.resize(objectPoints.size());
 
+	for( i = 0; i < (int)objectPoints.size(); i++ )
+	{
+		cv::projectPoints(cv::Mat(objectPoints[i]), rvecs[i], tvecs[i],
+					  cameraMatrix, distCoeffs, imagePoints2);
+		err = cv::norm(cv::Mat(imagePoints[i]), cv::Mat(imagePoints2), cv::NORM_L2);
+		int n = (int)objectPoints[i].size();
+		perViewErrors[i] = (float)std::sqrt(err*err/n);
+		totalErr += err*err;
+		totalPoints += n;
+	}
 
+	return std::sqrt(totalErr/totalPoints);
+}
+
+void operationCalibration::saveCameraParams(){
+	QDateTime time = QDateTime::currentDateTime();
+	QString timeStr = time.toString("yyyy-MM-dd hh:mm:ss dddd");
+	qDebug() << "current time" << timeStr;
+
+	if(!rvecs.empty() || !tvecs.empty())
+		qDebug() << "nframes" << (int)std::max(rvecs.size(), m_cabRet.reprojErrs.size());
+	qDebug() << "image_width" << m_saveImageAll[0].cols;
+	qDebug() << "image_height" << m_saveImageAll[0].rows;
+	qDebug() << "board_width" << m_cabOption.w;
+	qDebug() << "board_height" << m_cabOption.h;
+	qDebug() << "square_size" << m_cabOption.squareSize;
+	if( flags & cv::CALIB_FIX_ASPECT_RATIO )
+			qDebug() << "aspectRatio" << m_cabOption.aspectRatio;
+
+	if( flags != 0 ){
+		qDebug( "flags: %s%s%s%s",
+				flags & cv::CALIB_USE_INTRINSIC_GUESS ? "+use_intrinsic_guess" : "",
+				flags & cv::CALIB_FIX_ASPECT_RATIO ? "+fix_aspectRatio" : "",
+				flags & cv::CALIB_FIX_PRINCIPAL_POINT ? "+fix_principal_point" : "",
+				flags & cv::CALIB_ZERO_TANGENT_DIST ? "+zero_tangent_dist" : "" );
+				//cvWriteComment( *fs, buf, 0 );
+		}
+	qDebug() << "flags" << flags;
+//	qDebug() << "camera_matrix" << cameraMatrix;
+//	qDebug() << "distortion_coefficients" << distCoeffs;
+
+//	qDebug() << "avg_reprojection_error" << m_cabRet.totalAvgErr;
+//	if( !m_cabRet.reprojErrs.empty() )
+//		qDebug() << "per_view_reprojection_errors" << cv::Mat(m_cabRet.reprojErrs);
+
+}
