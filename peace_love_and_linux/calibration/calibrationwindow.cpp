@@ -197,6 +197,11 @@ void calibrationWindow::grapGetVideo(cv::Mat & srcImage){
 #define M_SHAREDKEY "ATOM_shared_mem"
 void calibrationWindow::on_startPushButton_clicked()
 {
+	if(info_D.currVideoX.isNull()){
+		QMessageBox::about(this,tr("warning"),tr("No video"));
+		return ;
+	}
+
 	if( (0 == this->ui->startPushButton->text().indexOf("start")) ){
 		this->ui->startPushButton->setText(QString("stop ") + QChar(0xf0c8));
 		//start video thread

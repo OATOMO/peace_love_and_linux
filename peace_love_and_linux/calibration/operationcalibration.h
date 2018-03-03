@@ -1,3 +1,7 @@
+/*	2018.3.3
+ *	标定结果存储方式  			x
+ *	支持圆网格,非对称圆网格  	x
+ * */
 #ifndef OPERATIONCALIBRATION_H
 #define OPERATIONCALIBRATION_H
 
@@ -30,8 +34,8 @@ struct CabOption{
 };
 
 struct CabReturn{
-	std::vector<float > reprojErrs;
-	double totalAvgErr;
+	std::vector<float > reprojErrs; 	//
+	double totalAvgErr;					//
 };
 
 class operationCalibration : public QDialog
@@ -45,6 +49,7 @@ public:
 	void initOptionUi();
 	void calcChessboardCorners(cv::Size boardSize, float squareSize, std::vector<cv::Point3f>& corners, Pattern patternType = CHESSBOARD);
 	void saveCameraParams();
+	void printMat(const cv::Mat &srcMat,QString &str);
 	//计算重投影误差
 	double computeReprojectionErrors(
 		const std::vector<std::vector<cv::Point3f> >& objectPoints,

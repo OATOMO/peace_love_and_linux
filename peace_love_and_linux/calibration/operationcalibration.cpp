@@ -15,7 +15,7 @@ void operationCalibration::initOptionUi(){
 	m_cabOption.w = ui->wSpinBox->value();
 	m_cabOption.h = ui->hSpinBox->value();
 	m_cabOption.squareSize = ui->squareSizeSpinBox->value();
-	m_cabOption.aspectRatio = ui->aspectRatioSpinBox->value();
+	m_cabOption.aspectRatio = 1;
 	on_patternComboBox_activated(ui->patternComboBox->currentText());
 	flags = 0;
 
@@ -112,13 +112,17 @@ void operationCalibration::on_caliPushButton_clicked()
 	//固定fx/fy的比值，只将fy作为可变量，进行优化计算
 	if(ui->aspectRatioCheckBox->isChecked()){
 		flags |= cv::CALIB_FIX_ASPECT_RATIO;
+		m_cabOption.aspectRatio = ui->aspectRatioSpinBox->value();
+	}else{
+		flags |= cv::CALIB_FIX_ASPECT_RATIO;
+		m_cabOption.aspectRatio = 1;
 	}
 	//切向畸变系数（P1，P2）被设置为零并保持为零
-	if(ui->zeroTangentCheckBox){
+	if(ui->zeroTangentCheckBox->isChecked()){
 		flags |= cv::CALIB_ZERO_TANGENT_DIST;
 	}
 	//在进行优化时会固定光轴点，光轴点将保持为图像的中心点
-	if(ui->principalPointCheckBox){
+	if(ui->principalPointCheckBox->isChecked()){
 		flags |= cv::CALIB_FIX_PRINCIPAL_POINT;
 	}
 
@@ -248,11 +252,44 @@ void operationCalibration::saveCameraParams(){
 				//cvWriteComment( *fs, buf, 0 );
 		}
 	qDebug() << "flags" << flags;
+
+
+	/*
+		|fx  0  cx|   |X|
+		|0   fy cy| * |Y|
+		|0   0   1|   |Z|
+	*/
+	QString camMatStr;
+	printMat(cameraMatrix,camMatStr);
+	qDebug() << camMatStr;
 //	qDebug() << "camera_matrix" << cameraMatrix;
+
+	camMatStr="";
+	printMat(distCoeffs,camMatStr);
+	qDebug() << camMatStr;
 //	qDebug() << "distortion_coefficients" << distCoeffs;
 
-//	qDebug() << "avg_reprojection_error" << m_cabRet.totalAvgErr;
-//	if( !m_cabRet.reprojErrs.empty() )
-//		qDebug() << "per_view_reprojection_errors" << cv::Mat(m_cabRet.reprojErrs);
+	qDebug() << "avg_reprojection_error" << m_cabRet.totalAvgErr;
+	if( !m_cabRet.reprojErrs.empty() ){
+		camMatStr = "";
+		printMat(cv::Mat(m_cabRet.reprojErrs),camMatStr);
+		qDebug() << "per_view_reprojection_errors" << camMatStr;
+	}
 
+}
+
+void operationCalibration::printMat(const cv::Mat &srcMat,QString &str){
+	if(srcMat.type() == CV_64F){
+		qDebug() << "cv_64f";
+
+		str+="[";
+		for(int i = 0;i < srcMat.rows;i++){
+			for(int j = 0;j < srcMat.cols;j++){
+				str+=QString::number(srcMat.at<double>(i,j));
+				str+=",";
+			}
+			str+="\r\n";
+		}
+		str+="]";
+	}//end if
 }
