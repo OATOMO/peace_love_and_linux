@@ -260,25 +260,51 @@ void operationCalibration::saveCameraParams(){
 		|0   0   1|   |Z|
 	*/
 	QString camMatStr;
-	printMat(cameraMatrix,camMatStr);
-	qDebug() << camMatStr;
+	qDebug() << printMat(cameraMatrix,camMatStr);
 //	qDebug() << "camera_matrix" << cameraMatrix;
 
-	camMatStr="";
-	printMat(distCoeffs,camMatStr);
-	qDebug() << camMatStr;
+	qDebug() << printMat(distCoeffs,camMatStr);
 //	qDebug() << "distortion_coefficients" << distCoeffs;
 
 	qDebug() << "avg_reprojection_error" << m_cabRet.totalAvgErr;
 	if( !m_cabRet.reprojErrs.empty() ){
-		camMatStr = "";
-		printMat(cv::Mat(m_cabRet.reprojErrs),camMatStr);
-		qDebug() << "per_view_reprojection_errors" << camMatStr;
+		qDebug() << "per_view_reprojection_errors"
+				 << printMat(cv::Mat(m_cabRet.reprojErrs),camMatStr);
+
 	}
 
+
+	if( !rvecs.empty() && !tvecs.empty() ){
+		CV_Assert(rvecs[0].type() == tvecs[0].type());
+		cv::Mat bigmat((int)rvecs.size(), 6, rvecs[0].type());
+		for( int i = 0; i < (int)rvecs.size(); i++ ){
+			cv::Mat r = bigmat(cv::Range(i, i+1), cv::Range(0,3));
+			cv::Mat t = bigmat(cv::Range(i, i+1), cv::Range(3,6));
+
+			CV_Assert(rvecs[i].rows == 3 && rvecs[i].cols == 1);
+			CV_Assert(tvecs[i].rows == 3 && tvecs[i].cols == 1);
+			//*.t() is MatExpr (not Mat) so we can use assignment operator
+			r = rvecs[i].t();
+			t = tvecs[i].t();
+		}
+		//cvWriteComment( *fs, "a set of 6-tuples (rotation vector + translation vector) for each view", 0 );
+		qDebug() << "extrinsic_parameters" << printMat(bigmat,camMatStr);
+	}
+
+
+	if( !imagePoints.empty() ){
+			cv::Mat imagePtMat((int)imagePoints.size(), (int)imagePoints[0].size(), CV_32FC2);
+			for( int i = 0; i < (int)imagePoints.size(); i++ ){
+				cv::Mat r = imagePtMat.row(i).reshape(2, imagePtMat.cols);
+				cv::Mat imgpti(imagePoints[i]);
+				imgpti.copyTo(r);
+			}
+			qDebug() << "image_points" << printMat(imagePtMat,camMatStr);
+		}
 }
 
-void operationCalibration::printMat(const cv::Mat &srcMat,QString &str){
+QString& operationCalibration::printMat(const cv::Mat &srcMat,QString &str){
+	str = "";
 	if(srcMat.type() == CV_64F){
 		qDebug() << "cv_64f";
 
@@ -292,4 +318,6 @@ void operationCalibration::printMat(const cv::Mat &srcMat,QString &str){
 		}
 		str+="]";
 	}//end if
+
+return str;
 }

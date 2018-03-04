@@ -49,7 +49,7 @@ public:
 	void initOptionUi();
 	void calcChessboardCorners(cv::Size boardSize, float squareSize, std::vector<cv::Point3f>& corners, Pattern patternType = CHESSBOARD);
 	void saveCameraParams();
-	void printMat(const cv::Mat &srcMat,QString &str);
+	QString& printMat(const cv::Mat &srcMat,QString &str);
 	//计算重投影误差
 	double computeReprojectionErrors(
 		const std::vector<std::vector<cv::Point3f> >& objectPoints,
