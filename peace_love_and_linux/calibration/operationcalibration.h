@@ -12,6 +12,10 @@
 #include <QMap>
 #include <unistd.h>
 #include <QDateTime>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonValue>
 
 namespace Ui {
 	class operationCalibration;
@@ -20,8 +24,8 @@ namespace Ui {
 enum Pattern { CHESSBOARD/*棋盘格*/, CIRCLES_GRID/*圆网格*/, ASYMMETRIC_CIRCLES_GRID/*非对称圆网格*/ };
 
 struct CabOption{
-	uint w;					//the number of inner corners per one of board dimension
-	uint h;					//the number of inner corners per another board dimension
+	int w;					//the number of inner corners per one of board dimension
+	int h;					//the number of inner corners per another board dimension
 	Pattern pattern; 		//the type of pattern: chessboard or circles' grid
 	float squareSize;     	//square size in some user-defined units (1 by default)
 	cv::Mat outCameraParams;//the output filename for intrinsic [and extrinsic] parameters

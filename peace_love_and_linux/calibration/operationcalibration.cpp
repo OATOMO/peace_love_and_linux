@@ -229,20 +229,34 @@ double operationCalibration::computeReprojectionErrors(
 }
 
 void operationCalibration::saveCameraParams(){
+	QJsonObject retRoot_j;
+
+
 	QDateTime time = QDateTime::currentDateTime();
 	QString timeStr = time.toString("yyyy-MM-dd hh:mm:ss dddd");
+	retRoot_j.insert("time",timeStr);
 	qDebug() << "current time" << timeStr;
 
-	if(!rvecs.empty() || !tvecs.empty())
-		qDebug() << "nframes" << (int)std::max(rvecs.size(), m_cabRet.reprojErrs.size());
-	qDebug() << "image_width" << m_saveImageAll[0].cols;
-	qDebug() << "image_height" << m_saveImageAll[0].rows;
-	qDebug() << "board_width" << m_cabOption.w;
-	qDebug() << "board_height" << m_cabOption.h;
-	qDebug() << "square_size" << m_cabOption.squareSize;
-	if( flags & cv::CALIB_FIX_ASPECT_RATIO )
-			qDebug() << "aspectRatio" << m_cabOption.aspectRatio;
 
+
+	if(!rvecs.empty() || !tvecs.empty()){
+//		qDebug() << "nframes" << (int)std::max(rvecs.size(), m_cabRet.reprojErrs.size());
+		retRoot_j.insert("nFrames",(int)std::max(rvecs.size(), m_cabRet.reprojErrs.size()));
+	}
+//	qDebug() << "image_width" << m_saveImageAll[0].cols;
+	retRoot_j.insert("imageWidth",m_saveImageAll[0].cols);
+//	qDebug() << "image_height" << m_saveImageAll[0].rows;
+	retRoot_j.insert("imageHeight",m_saveImageAll[0].rows);
+//	qDebug() << "board_width" << m_cabOption.w;
+	retRoot_j.insert("boardWidth",m_cabOption.w);
+//	qDebug() << "board_height" << m_cabOption.h;
+	retRoot_j.insert("boardHeight",m_cabOption.h);
+//	qDebug() << "square_size" << m_cabOption.squareSize;
+	retRoot_j.insert("squareSize",m_cabOption.squareSize);
+	if( flags & cv::CALIB_FIX_ASPECT_RATIO ){
+			qDebug() << "aspectRatio" << m_cabOption.aspectRatio;
+			retRoot_j.insert("aspectRatio",m_cabOption.aspectRatio);
+	}
 	if( flags != 0 ){
 		qDebug( "flags: %s%s%s%s",
 				flags & cv::CALIB_USE_INTRINSIC_GUESS ? "+use_intrinsic_guess" : "",
@@ -261,12 +275,12 @@ void operationCalibration::saveCameraParams(){
 	*/
 	QString camMatStr;
 	qDebug() << printMat(cameraMatrix,camMatStr);
-//	qDebug() << "camera_matrix" << cameraMatrix;
 
 	qDebug() << printMat(distCoeffs,camMatStr);
-//	qDebug() << "distortion_coefficients" << distCoeffs;
 
 	qDebug() << "avg_reprojection_error" << m_cabRet.totalAvgErr;
+/*
+ *  不输出这些结果,略显多余
 	if( !m_cabRet.reprojErrs.empty() ){
 		qDebug() << "per_view_reprojection_errors"
 				 << printMat(cv::Mat(m_cabRet.reprojErrs),camMatStr);
@@ -288,7 +302,8 @@ void operationCalibration::saveCameraParams(){
 			t = tvecs[i].t();
 		}
 		//cvWriteComment( *fs, "a set of 6-tuples (rotation vector + translation vector) for each view", 0 );
-		qDebug() << "extrinsic_parameters" << printMat(bigmat,camMatStr);
+		qDebug() << "extrinsic_parameters:";
+		qDebug() << printMat(bigmat,camMatStr);
 	}
 
 
@@ -301,17 +316,37 @@ void operationCalibration::saveCameraParams(){
 			}
 			qDebug() << "image_points" << printMat(imagePtMat,camMatStr);
 		}
+*/
+	QJsonDocument retRoot_d;
+	retRoot_d.setObject(retRoot_j);
+	QByteArray retRoot_b = retRoot_d.toJson(QJsonDocument::Compact);
+	qDebug() << QString(retRoot_b);
+	return ;
 }
 
 QString& operationCalibration::printMat(const cv::Mat &srcMat,QString &str){
 	str = "";
-	if(srcMat.type() == CV_64F){
-		qDebug() << "cv_64f";
+
+
+	if(srcMat.type() == CV_64F || srcMat.type() == (CV_64F + CV_USRTYPE1)){
 
 		str+="[";
 		for(int i = 0;i < srcMat.rows;i++){
 			for(int j = 0;j < srcMat.cols;j++){
 				str+=QString::number(srcMat.at<double>(i,j));
+				str+=",";
+			}
+			str+="\r\n";
+		}
+		str+="]";
+	}//end if
+
+	if(srcMat.type() == CV_32F){
+
+		str+="[";
+		for(int i = 0;i < srcMat.rows;i++){
+			for(int j = 0;j < srcMat.cols;j++){
+				str+=QString::number(srcMat.at<float>(i,j));
 				str+=",";
 			}
 			str+="\r\n";

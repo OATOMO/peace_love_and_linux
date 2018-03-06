@@ -306,10 +306,16 @@ void calibrationWindow::on_lookoverPushButton_clicked(){
 void calibrationWindow::on_openImglPushButton_clicked()
 {
 	QString fileName = QFileDialog::getOpenFileName(this,tr("save image"),"",tr("(*.imgl)"));
+	if(fileName == NULL){
+		qDebug() << "click cancel";
+		return ;
+	}
+
 	QFile imglFile;
 	imglFile.setFileName(fileName);
 	if(!imglFile.open(QIODevice::ReadOnly|QIODevice::Text)){
 		qDebug()<<"打开失败";
+		return ;
 	}
 
 	QString rootString = imglFile.readAll();
