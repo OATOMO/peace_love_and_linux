@@ -16,6 +16,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
+#include <QTimer>
 
 namespace Ui {
 	class operationCalibration;
@@ -54,6 +55,7 @@ public:
 	void calcChessboardCorners(cv::Size boardSize, float squareSize, std::vector<cv::Point3f>& corners, Pattern patternType = CHESSBOARD);
 	void saveCameraParams();
 	QString& printMat(const cv::Mat &srcMat,QString &str);
+	void jsonMat(cv::Mat srcMat,QJsonObject& root_j,QString matName);
 	//计算重投影误差
 	double computeReprojectionErrors(
 		const std::vector<std::vector<cv::Point3f> >& objectPoints,
@@ -74,6 +76,11 @@ public:
 	std::vector<cv::Mat> tvecs;						//位移向量
 	int flags;										//标定函数所采用的模型
 
+	QString retRoot_s;
+	std::vector<std::vector<cv::Point2f> > reProjectionPoints;
+	std::vector<cv::Mat> m_reProjectionImageAll;
+
+
 private slots:
 	void on_wSpinBox_valueChanged(int arg1);
 
@@ -89,9 +96,7 @@ private slots:
 
 	void on_caliPushButton_clicked();
 
-
-
-
+	void on_reProCheckPushButton_clicked();
 
 private:
 	Ui::operationCalibration *ui;

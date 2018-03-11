@@ -156,7 +156,7 @@
     <string>principalPoint</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -182,12 +182,12 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>200</x>
      <y>60</y>
-     <width>191</width>
+     <width>284</width>
      <height>29</height>
     </rect>
    </property>
@@ -219,6 +219,22 @@
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QPushButton" name="reProCheckPushButton">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>390</y>
+     <width>111</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>reProCheck</string>
+   </property>
   </widget>
  </widget>
  <resources/>

@@ -83,6 +83,7 @@ void operationCalibration::on_aspectRatioCheckBox_stateChanged(int arg1)
 }
 
 
+
 void operationCalibration::on_caliPushButton_clicked()
 {
 	for(int i = 0;i < m_saveImageAll.size();i++){
@@ -106,6 +107,10 @@ void operationCalibration::on_caliPushButton_clicked()
 		cv::resize(proImage,proImage,cv::Size(320,240),0,0,cv::INTER_LINEAR);
 		QImage viewTemp(proImage.data,proImage.cols,proImage.rows,QImage::Format_Indexed8);
 		this->ui->imageLabel->setPixmap(QPixmap::fromImage(viewTemp));
+
+		QEventLoop loop;
+		QTimer::singleShot(100, &loop, SLOT(quit()));
+		loop.exec();
 
 	}
 
@@ -218,6 +223,9 @@ double operationCalibration::computeReprojectionErrors(
 	{
 		cv::projectPoints(cv::Mat(objectPoints[i]), rvecs[i], tvecs[i],
 					  cameraMatrix, distCoeffs, imagePoints2);
+
+		reProjectionPoints.insert(reProjectionPoints.begin()+i,imagePoints2);
+
 		err = cv::norm(cv::Mat(imagePoints[i]), cv::Mat(imagePoints2), cv::NORM_L2);
 		int n = (int)objectPoints[i].size();
 		perViewErrors[i] = (float)std::sqrt(err*err/n);
@@ -254,7 +262,7 @@ void operationCalibration::saveCameraParams(){
 //	qDebug() << "square_size" << m_cabOption.squareSize;
 	retRoot_j.insert("squareSize",m_cabOption.squareSize);
 	if( flags & cv::CALIB_FIX_ASPECT_RATIO ){
-			qDebug() << "aspectRatio" << m_cabOption.aspectRatio;
+//			qDebug() << "aspectRatio" << m_cabOption.aspectRatio;
 			retRoot_j.insert("aspectRatio",m_cabOption.aspectRatio);
 	}
 	if( flags != 0 ){
@@ -274,11 +282,14 @@ void operationCalibration::saveCameraParams(){
 		|0   0   1|   |Z|
 	*/
 	QString camMatStr;
-	qDebug() << printMat(cameraMatrix,camMatStr);
+//	qDebug() << printMat(cameraMatrix,camMatStr);
+	jsonMat(cameraMatrix,retRoot_j,"cameraMater");
 
-	qDebug() << printMat(distCoeffs,camMatStr);
+//	qDebug() << printMat(distCoeffs,camMatStr);
+	jsonMat(distCoeffs,retRoot_j,"disCoeffs");
 
-	qDebug() << "avg_reprojection_error" << m_cabRet.totalAvgErr;
+//	qDebug() << "avg_reprojection_error" << m_cabRet.totalAvgErr;
+	retRoot_j.insert("avgReprojectionError",m_cabRet.totalAvgErr);
 /*
  *  不输出这些结果,略显多余
 	if( !m_cabRet.reprojErrs.empty() ){
@@ -320,7 +331,11 @@ void operationCalibration::saveCameraParams(){
 	QJsonDocument retRoot_d;
 	retRoot_d.setObject(retRoot_j);
 	QByteArray retRoot_b = retRoot_d.toJson(QJsonDocument::Compact);
-	qDebug() << QString(retRoot_b);
+	retRoot_s = QString(retRoot_b);
+	qDebug() << retRoot_s;
+
+	ui->reProCheckPushButton->setEnabled(true);
+
 	return ;
 }
 
@@ -356,3 +371,50 @@ QString& operationCalibration::printMat(const cv::Mat &srcMat,QString &str){
 
 return str;
 }
+
+void operationCalibration::jsonMat(cv::Mat srcMat,QJsonObject& root_j,QString matName){
+	if(srcMat.type() == CV_64F || srcMat.type() == (CV_64F + CV_USRTYPE1) ||
+													srcMat.type() == CV_32F){
+		QJsonObject tmpObj;
+		QJsonArray tmpMat_ja;
+
+
+		for(int i = 0;i < srcMat.rows;i++){
+			for(int j = 0;j < srcMat.cols;j++){
+				tmpMat_ja.insert(i*srcMat.cols+j ,srcMat.at<double>(i,j));
+			}
+		}
+
+		tmpObj.insert("matInfo",
+					  QString::number(srcMat.cols)+"*"+QString::number(srcMat.rows));
+		tmpObj.insert("mat",tmpMat_ja);
+		root_j.insert(matName,tmpObj);
+	}//end if
+}
+
+void drawCrossLine(cv::Mat& srcImage,cv::Point2f center,const cv::Scalar& color,int line,int thickness = 1){
+	float x = center.x;
+	float y = center.y;
+	cv::line(srcImage,cv::Point2f(x-line,y),cv::Point2f(x+line,y),color,thickness);
+	cv::line(srcImage,cv::Point2f(x,y-line),cv::Point2f(x,y+line),color,thickness);
+}
+
+void operationCalibration::on_reProCheckPushButton_clicked()
+{
+	cv::Mat tmpImage;
+	if(reProjectionPoints.size() == imagePoints.size()){
+		for(int i = 0;i < reProjectionPoints.size();i++){
+			tmpImage = m_saveImageAll[i].clone();
+			for(int j = 0;j < imagePoints[i].size();j++){
+				cv::circle(tmpImage,imagePoints[i][j],(tmpImage.rows/100),cv::Scalar(0xcd,0x74,0x18),2);
+				drawCrossLine(tmpImage,reProjectionPoints[i][j],cv::Scalar(0x93,0x14,0xff),(tmpImage.rows/100), 2);
+			}
+		m_reProjectionImageAll.push_back(tmpImage);
+//		cv::imshow("",tmpImage);
+		}
+
+
+
+	}//end if
+}
+
