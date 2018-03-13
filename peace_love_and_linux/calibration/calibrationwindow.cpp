@@ -13,10 +13,22 @@ calibrationWindow::calibrationWindow(QWidget *parent) :
 	getInitInfo();
 	//init interface
 	initInterface();							//初始化界面
+
+
+	operationCal = NULL;
+	loWindow = NULL;
+
 }
 
 calibrationWindow::~calibrationWindow()
 {
+	if(operationCal){
+		delete operationCal;
+	}
+	if(loWindow){
+		delete loWindow;
+	}
+
 	delete ui;
 }
 
@@ -291,7 +303,8 @@ void calibrationWindow::channgeImageN(void){
 
 void calibrationWindow::on_lookoverPushButton_clicked(){
 	if(m_saveImageAll.size() > 0){
-		lookoverImage * loWindow = new lookoverImage(&m_saveImageAll,this);
+//		lookoverImage * loWindow = new lookoverImage(&m_saveImageAll,this);
+		loWindow = new lookoverImage(&m_saveImageAll,this);
 		connect(loWindow,SIGNAL(channgeImageN()),this,SLOT(channgeImageN()));
 		loWindow->show();
 	}else{
@@ -355,7 +368,8 @@ void calibrationWindow::on_openImglPushButton_clicked()
 void calibrationWindow::on_calibrationPushButton_clicked()
 {
 	if(m_saveImageAll.size() > 0){
-		operationCalibration * operationCal = new operationCalibration(m_saveImageAll,this);
+//		operationCalibration * operationCal = new operationCalibration(m_saveImageAll,this);
+		operationCal = new operationCalibration(m_saveImageAll,this);
 		operationCal->show();
 	}else{
 		QMessageBox::about(this,tr("warning"),tr("No pictures"));

@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     FONT/iconhelper.cpp \
     videoCapture/videocapture.cpp \
     calibration/lookoverimage.cpp \
-    calibration/operationcalibration.cpp
+    calibration/operationcalibration.cpp \
+    calibration/reprojectioncheck.cpp
 
 HEADERS  += mainwindow.h \
     calibration/calibrationwindow.h \
@@ -27,7 +28,8 @@ HEADERS  += mainwindow.h \
     FONT/iconhelper.h \
     videoCapture/videocapture.h \
     calibration/lookoverimage.h \
-    calibration/operationcalibration.h
+    calibration/operationcalibration.h \
+    calibration/reprojectioncheck.h
 
 LIBS += -L/usr/local/lib \
     /usr/local/lib/libopencv_core.so \
@@ -51,7 +53,8 @@ LIBS += -L/usr/local/lib \
 FORMS    += mainwindow.ui \
     calibration/calibrationwindow.ui \
     calibration/lookoverimage.ui \
-    calibration/operationcalibration.ui
+    calibration/operationcalibration.ui \
+    calibration/reprojectioncheck.ui
 
 RESOURCES += \
     resource.qrc

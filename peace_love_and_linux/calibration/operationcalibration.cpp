@@ -8,6 +8,7 @@ operationCalibration::operationCalibration(std::vector<cv::Mat>  m_saveImageAll,
 {
 	ui->setupUi(this);
 	initOptionUi();
+	repro_check = NULL;
 }
 
 void operationCalibration::initOptionUi(){
@@ -26,6 +27,9 @@ void operationCalibration::initOptionUi(){
 
 operationCalibration::~operationCalibration()
 {
+	if(repro_check){
+		delete repro_check;
+	}
 	delete ui;
 }
 
@@ -335,6 +339,7 @@ void operationCalibration::saveCameraParams(){
 	qDebug() << retRoot_s;
 
 	ui->reProCheckPushButton->setEnabled(true);
+	ui->saveCamMatPushButton->setEnabled(true);
 
 	return ;
 }
@@ -413,8 +418,30 @@ void operationCalibration::on_reProCheckPushButton_clicked()
 //		cv::imshow("",tmpImage);
 		}
 
+	if(m_reProjectionImageAll.size()){
+//		reProjectionCheck * repro_check = new reProjectionCheck(m_reProjectionImageAll,this);
+		repro_check = new reProjectionCheck(m_reProjectionImageAll,this);
+		repro_check->show();
+	}else{
+		QMessageBox::about(this,tr("warning"),tr("No pictures"));
+	}
 
-
+	m_reProjectionImageAll.clear();
 	}//end if
 }
 
+
+void operationCalibration::on_saveCamMatPushButton_clicked()
+{
+	QString fileName = QFileDialog::getSaveFileName(this,tr("save camMat"),"","");
+	if(fileName == NULL){
+		qDebug() << "click cancel";
+		return ;
+	}
+	QFile outfile(fileName);
+	qDebug() << fileName;
+	outfile.open(QIODevice::WriteOnly);
+	QTextStream ts(&outfile);
+	ts << retRoot_s << endl;
+
+}

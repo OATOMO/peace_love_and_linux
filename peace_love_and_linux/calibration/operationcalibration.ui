@@ -236,6 +236,22 @@
     <string>reProCheck</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="saveCamMatPushButton">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>390</y>
+     <width>97</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>save camMat</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

@@ -17,7 +17,11 @@
 #include <QJsonArray>
 #include <QJsonValue>
 #include <QTimer>
+#include <QMessageBox>
+#include <QFile>
+#include <QFileDialog>
 
+#include <calibration/reprojectioncheck.h>
 namespace Ui {
 	class operationCalibration;
 }
@@ -79,7 +83,7 @@ public:
 	QString retRoot_s;
 	std::vector<std::vector<cv::Point2f> > reProjectionPoints;
 	std::vector<cv::Mat> m_reProjectionImageAll;
-
+	reProjectionCheck * repro_check;
 
 private slots:
 	void on_wSpinBox_valueChanged(int arg1);
@@ -97,6 +101,8 @@ private slots:
 	void on_caliPushButton_clicked();
 
 	void on_reProCheckPushButton_clicked();
+
+	void on_saveCamMatPushButton_clicked();
 
 private:
 	Ui::operationCalibration *ui;

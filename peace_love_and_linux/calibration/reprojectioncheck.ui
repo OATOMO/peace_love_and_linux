@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>reProjectionCheck</class>
+ <widget class="QDialog" name="reProjectionCheck">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>680</width>
+    <height>533</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLabel" name="imageLabel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>640</width>
+     <height>480</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="beforePushButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>500</y>
+     <width>97</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>before</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="afterPushButton">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>500</y>
+     <width>97</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>after</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="numberLabel">
+   <property name="geometry">
+    <rect>
+     <x>116</x>
+     <y>506</y>
+     <width>41</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>num</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -76,7 +76,8 @@ public:
 	cv::Mat m_srcImage;
 	std::vector<cv::Mat > m_saveImageAll;
 	uint saveNumber = 0;
-
+	operationCalibration * operationCal;
+	lookoverImage * loWindow;
 signals:
 	void clickX();
 
