@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     videoCapture/videocapture.cpp \
     calibration/lookoverimage.cpp \
     calibration/operationcalibration.cpp \
-    calibration/reprojectioncheck.cpp
+    calibration/reprojectioncheck.cpp \
+    AR/operationar.cpp
 
 HEADERS  += mainwindow.h \
     calibration/calibrationwindow.h \
@@ -29,7 +30,8 @@ HEADERS  += mainwindow.h \
     videoCapture/videocapture.h \
     calibration/lookoverimage.h \
     calibration/operationcalibration.h \
-    calibration/reprojectioncheck.h
+    calibration/reprojectioncheck.h \
+    AR/operationar.h
 
 LIBS += -L/usr/local/lib \
     /usr/local/lib/libopencv_core.so \
@@ -54,7 +56,8 @@ FORMS    += mainwindow.ui \
     calibration/calibrationwindow.ui \
     calibration/lookoverimage.ui \
     calibration/operationcalibration.ui \
-    calibration/reprojectioncheck.ui
+    calibration/reprojectioncheck.ui \
+    AR/operationar.ui
 
 RESOURCES += \
     resource.qrc

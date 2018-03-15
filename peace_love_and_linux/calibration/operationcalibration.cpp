@@ -251,6 +251,8 @@ void operationCalibration::saveCameraParams(){
 
 
 
+
+	retRoot_j.insert("fileType","cabFile");
 	if(!rvecs.empty() || !tvecs.empty()){
 //		qDebug() << "nframes" << (int)std::max(rvecs.size(), m_cabRet.reprojErrs.size());
 		retRoot_j.insert("nFrames",(int)std::max(rvecs.size(), m_cabRet.reprojErrs.size()));

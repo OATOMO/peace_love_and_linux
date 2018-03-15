@@ -6,7 +6,7 @@
 #include <QDebug>
 //self
 #include "calibration/calibrationwindow.h"
-
+#include "AR/operationar.h"
 //3rd
 
 namespace Ui {
@@ -24,6 +24,8 @@ public:
 private slots:
 	void on_calibrationPushButton_clicked();
 	void showMainWindow();
+
+	void on_ARPushButton_clicked();
 
 private:
 	Ui::MainWindow *ui;

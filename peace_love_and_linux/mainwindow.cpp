@@ -27,3 +27,12 @@ void MainWindow::on_calibrationPushButton_clicked()
 void MainWindow::showMainWindow(){
 	this->show();
 }
+
+void MainWindow::on_ARPushButton_clicked()
+{
+	operationAR * arWin = new operationAR(this);
+
+	connect(arWin,SIGNAL(clickX()),this,SLOT(showMainWindow()));
+	this->hide();
+	arWin->show();
+}
