@@ -36,3 +36,12 @@ void MainWindow::on_ARPushButton_clicked()
 	this->hide();
 	arWin->show();
 }
+
+void MainWindow::on_SFMPushButton_clicked()
+{
+	SFMWindow * sfmWin = new SFMWindow(this);
+
+	connect(sfmWin,SIGNAL(clickX()),this,SLOT(showMainWindow()));
+	this->hide();
+	sfmWin->show();
+}

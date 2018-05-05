@@ -7,6 +7,7 @@
 //self
 #include "calibration/calibrationwindow.h"
 #include "AR/operationar.h"
+#include "SFM/sfmwindow.h"
 //3rd
 
 namespace Ui {
@@ -26,6 +27,8 @@ private slots:
 	void showMainWindow();
 
 	void on_ARPushButton_clicked();
+
+	void on_SFMPushButton_clicked();
 
 private:
 	Ui::MainWindow *ui;

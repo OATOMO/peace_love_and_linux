@@ -393,7 +393,7 @@ void operationCalibration::jsonMat(cv::Mat srcMat,QJsonObject& root_j,QString ma
 		}
 
 		tmpObj.insert("matInfo",
-					  QString::number(srcMat.cols)+"*"+QString::number(srcMat.rows));
+					  QString::number(srcMat.rows)+"*"+QString::number(srcMat.cols));
 		tmpObj.insert("mat",tmpMat_ja);
 		root_j.insert(matName,tmpObj);
 	}//end if
