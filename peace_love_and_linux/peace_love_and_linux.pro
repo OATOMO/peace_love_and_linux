@@ -30,7 +30,10 @@ SOURCES += main.cpp\
     SFM/featureMatcher/Triangulation.cpp \
     SFM/featureMatcher/cpusurffeaturematcher.cpp \
     SFM/featureMatcher/MultiCameraDistance.cpp \
-    common/loadmat.cpp
+    common/loadmat.cpp \
+    SFM/featureMatcher/MultiCameraPnP.cpp \
+    SFM/featureMatcher/SfMUpdateListener.cpp \
+    SFM/featureMatcher/BundleAdjuster.cpp
 
 HEADERS  += mainwindow.h \
     calibration/calibrationwindow.h \
@@ -52,7 +55,10 @@ HEADERS  += mainwindow.h \
     SFM/featureMatcher/cpusurffeaturematcher.h \
     SFM/featureMatcher/sfm_config.h \
     SFM/featureMatcher/MultiCameraDistance.h \
-    common/loadmat.h
+    common/loadmat.h \
+    SFM/featureMatcher/MultiCameraPnP.h \
+    SFM/featureMatcher/SfMUpdateListener.h \
+    SFM/featureMatcher/BundleAdjuster.h
 
 LIBS += -L/usr/local/lib \
     /usr/local/lib/libopencv_core.so \

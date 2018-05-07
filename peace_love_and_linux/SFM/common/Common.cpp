@@ -114,6 +114,7 @@ void drawArrows(Mat& frame, const vector<Point2f>& prevPts, const vector<Point2f
     }
 }
 
+//这段代码片调用了两个函数进行图片名称拼接
 bool hasEnding (std::string const &fullString, std::string const &ending)
 {
     if (fullString.length() >= ending.length()) {

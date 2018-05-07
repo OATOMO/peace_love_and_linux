@@ -22,6 +22,8 @@
 bool CheckCoherentRotation(cv::Mat_<double>& R);
 bool TestTriangulation(const std::vector<CloudPoint>& pcloud, const cv::Matx34d& P, std::vector<uchar>& status);
 
+
+//计算出两幅图像的基础矩阵，并优化匹配组，基本去除错误匹配
 cv::Mat GetFundamentalMat(	const std::vector<cv::KeyPoint>& imgpts1,
 							const std::vector<cv::KeyPoint>& imgpts2,
 							std::vector<cv::KeyPoint>& imgpts1_good,

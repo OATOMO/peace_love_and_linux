@@ -16,6 +16,7 @@
 #include "cpusurffeaturematcher.h"
 
 //c'tor
+//old 构造函数
 MultiCameraDistance::MultiCameraDistance(
 	const std::vector<cv::Mat>& imgs_, 
 	const std::vector<std::string>& imgs_names_, 
@@ -61,7 +62,45 @@ imgs_names(imgs_names_),features_matched(false),use_rich_features(true),use_gpu(
 	}
 	
 	K = cam_matrix;
-	invert(K, Kinv); //get inverse of camera matrix
+	invert(K, Kinv); //get inverse of camera matrix 对内参数进行取反
+
+	distortion_coeff.convertTo(distcoeff_32f,CV_32FC1);
+	K.convertTo(K_32f,CV_32FC1);
+}
+
+//新的构造函数
+MultiCameraDistance::MultiCameraDistance(
+	const std::vector<cv::Mat>& imgs_,
+	const std::vector<std::string>& imgs_names_,
+	const cv::Mat cam_matrix,
+	const cv::Mat distortion_coeff):
+	imgs_names(imgs_names_),
+	cam_matrix(cam_matrix),
+	distortion_coeff(distortion_coeff)
+{
+	for (unsigned int i=0; i<imgs_.size(); i++) {
+		imgs_orig.push_back(cv::Mat_<cv::Vec3b>());
+		if (!imgs_[i].empty()) {
+			if (imgs_[i].type() == CV_8UC1) {
+				cvtColor(imgs_[i], imgs_orig[i], CV_GRAY2BGR);
+			} else if (imgs_[i].type() == CV_32FC3 || imgs_[i].type() == CV_64FC3) {
+				imgs_[i].convertTo(imgs_orig[i],CV_8UC3,255.0);
+			} else {
+				imgs_[i].copyTo(imgs_orig[i]);
+			}
+		}
+
+		imgs.push_back(cv::Mat());
+		cvtColor(imgs_orig[i],imgs[i], CV_BGR2GRAY);
+
+		imgpts.push_back(std::vector<cv::KeyPoint>());
+		imgpts_good.push_back(std::vector<cv::KeyPoint>());
+		std::cout << ".";
+	}
+	std::cout << std::endl;
+
+	K = cam_matrix;
+	cv::invert(K, Kinv); //get inverse of camera matrix 对内参数进行取反
 
 	distortion_coeff.convertTo(distcoeff_32f,CV_32FC1);
 	K.convertTo(K_32f,CV_32FC1);
@@ -80,6 +119,8 @@ void MultiCameraDistance::OnlyMatchFeatures(int strategy)
 //	} else {
 //		feature_matcher = new OFFeatureMatcher(use_gpu,imgs,imgpts);
 //	}
+
+	//self surf feature matcher
 	feature_matcher = new CPUSURFFeatureMatcher(imgs,imgpts);
 
 	if(strategy & STRATEGY_USE_OPTICAL_FLOW)

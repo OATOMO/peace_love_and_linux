@@ -108,6 +108,7 @@ bool CheckCoherentRotation(cv::Mat_<double>& R) {
  * 输入两组特征点;
  * 找到对极约束的特征点,与DMatch;
  * 返回基础矩阵F
+ * 计算出两幅图像的基础矩阵，并优化匹配组，基本去除错误匹配
  */
 Mat GetFundamentalMat(const vector<KeyPoint>& imgpts1,
 					   const vector<KeyPoint>& imgpts2,

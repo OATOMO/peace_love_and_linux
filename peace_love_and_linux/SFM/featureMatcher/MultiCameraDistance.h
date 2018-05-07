@@ -29,9 +29,9 @@ protected:
 
 	std::map<std::pair<int,int> ,std::vector<cv::DMatch> > matches_matrix;
 	
-	std::vector<cv::Mat_<cv::Vec3b> > imgs_orig;
-	std::vector<cv::Mat> imgs;
-	std::vector<std::string> imgs_names;
+	std::vector<cv::Mat_<cv::Vec3b> > imgs_orig;	//全部原图
+	std::vector<cv::Mat> imgs;						//全部灰度图片
+	std::vector<std::string> imgs_names;			//全部图片名
 	
 	std::map<int,cv::Matx34d> Pmats;
 
@@ -70,10 +70,19 @@ public:
 		std::vector<cv::Vec3b>& RGBforCloud
 		);
 
+	//old 构造函数
 	MultiCameraDistance(
 		const std::vector<cv::Mat>& imgs_, 
 		const std::vector<std::string>& imgs_names_, 
 		const std::string& imgs_path_);	
+
+	//新的构造函数
+	MultiCameraDistance(
+		const std::vector<cv::Mat>& imgs_,
+		const std::vector<std::string>& imgs_names_,
+		const cv::Mat cam_matrix,
+		const cv::Mat distortion_coeff);
+
 	virtual void OnlyMatchFeatures(int strategy = STRATEGY_USE_FEATURE_MATCH);	
 //	bool CheckCoherentRotation(cv::Mat_<double>& R);
 };

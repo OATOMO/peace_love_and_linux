@@ -32,6 +32,7 @@ void PointsToKeyPoints(const std::vector<cv::Point2f>& ps, std::vector<cv::KeyPo
 
 std::vector<cv::Point3d> CloudPointsToPoints(const std::vector<CloudPoint> cpts);
 
+//从matchs集中得到对齐的点
 void GetAlignedPointsFromMatch(const std::vector<cv::KeyPoint>& imgpts1,
 							   const std::vector<cv::KeyPoint>& imgpts2,
 							   const std::vector<cv::DMatch>& matches,

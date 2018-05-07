@@ -11,6 +11,12 @@
    TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
   0. You just DO WHAT THE FUCK YOU WANT TO.
+
+need:
+  @ SSBA (Sparse Levenberg-Marquardt based non-linear least squares optimizer and
+		  bundle adjustment implementation)
+  @ opencv_contrib_3.2
+  @ openmp
 */
 #ifndef SFMWINDOW_H
 #define SFMWINDOW_H

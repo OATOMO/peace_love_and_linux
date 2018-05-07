@@ -171,7 +171,7 @@ double TriangulatePoints(const vector<KeyPoint>& pt_set1,
 	}
 #else
 	Mat_<double> KP1 = K * Mat(P1);
-#pragma omp parallel for num_threads(1)
+#pragma omp parallel for num_threads(1) //只用一个线程执行
 	for (int i=0; i<pts_size; i++) {
 		Point2f kp = pt_set1[i].pt; 
 		Point3d u(kp.x,kp.y,1.0);
@@ -194,7 +194,7 @@ double TriangulatePoints(const vector<KeyPoint>& pt_set1,
 //		cout <<	"Point * K: " << xPt_img << endl;
 		Point2f xPt_img_(xPt_img(0)/xPt_img(2),xPt_img(1)/xPt_img(2));
 				
-#pragma omp critical
+#pragma omp critical //每次只能同时被一个线程执行
 		{
 			double reprj_err = norm(xPt_img_-kp1);
 			reproj_error.push_back(reprj_err);
