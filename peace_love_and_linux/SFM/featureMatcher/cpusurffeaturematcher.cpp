@@ -93,10 +93,13 @@ void CPUSURFFeatureMatcher::MatchFeatures(int idx_i, int idx_j,
 					good_matches_, img_matches, Scalar::all(-1), Scalar::all(-1),
 					std::vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
 		//-- Show detected matches
-		std::stringstream ss;ss << "Feature Matches " << idx_i << "-" << idx_j;
-		imshow(ss.str() , img_matches );
-		waitKey(0);
-		destroyWindow(ss.str());
+//		std::stringstream ss;ss << "Feature Matches " << idx_i << "-" << idx_j;
+//		imshow(ss.str() , img_matches );
+//		waitKey(0);
+//		destroyWindow(ss.str());
+		std::stringstream ss;ss << "/home/atom/image/sfm/Feature_Matches"
+								<< idx_i << "-" << idx_j <<".jpg";
+		cv::imwrite(ss.str(),img_matches);
 	}
 #endif
 
@@ -120,9 +123,12 @@ void CPUSURFFeatureMatcher::MatchFeatures(int idx_i, int idx_j,
 					good_matches_, img_matches, Scalar::all(-1), Scalar::all(-1),
 					std::vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
 		//-- Show detected matches
-		imshow( "Good Matches", img_matches );
-		waitKey(0);
-		destroyWindow("Good Matches");
+//		imshow( "Good Matches", img_matches );
+//		waitKey(0);
+//		destroyWindow("Good Matches");
+		std::stringstream ss;ss << "/home/atom/image/sfm/Good_Matches"
+								<< idx_i << "-" << idx_j <<".jpg";
+		cv::imwrite(ss.str(),img_matches);
 	}
 #endif
 

@@ -102,8 +102,13 @@ MultiCameraDistance::MultiCameraDistance(
 	K = cam_matrix;
 	cv::invert(K, Kinv); //get inverse of camera matrix 对内参数进行取反
 
+//	std::cout << "K.size()" << K.size() << std::endl;
+
 	distortion_coeff.convertTo(distcoeff_32f,CV_32FC1);
 	K.convertTo(K_32f,CV_32FC1);
+
+//	std::cout << "distortion_coeff.size()" << distortion_coeff.size() << std::endl;
+//	std::cout << "K.size()" << K.size() << std::endl;
 }
 
 void MultiCameraDistance::OnlyMatchFeatures(int strategy) 
@@ -146,7 +151,7 @@ void MultiCameraDistance::OnlyMatchFeatures(int strategy)
 	//		}
 	//	}
 	//} else {
-#pragma omp parallel for
+//#pragma omp parallel for
 		for (frame_num_i = 0; frame_num_i < loop1_top; frame_num_i++) {
 			for (int frame_num_j = frame_num_i + 1; frame_num_j < loop2_top; frame_num_j++)
 			{

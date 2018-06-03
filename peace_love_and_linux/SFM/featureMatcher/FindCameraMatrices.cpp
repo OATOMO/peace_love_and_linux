@@ -204,14 +204,14 @@ Mat GetFundamentalMat(const vector<KeyPoint>& imgpts1,
 			j_pts.resize(imgpts2_good.size());
 			KeyPointsToPoints(imgpts1_good, i_pts);
 			KeyPointsToPoints(imgpts2_good, j_pts);
-			drawArrows(img_orig_matches, i_pts, j_pts, vstatus, verror, Scalar(0,255,0));
-			imshow( "Filtered Matches", img_orig_matches );
+//			drawArrows(img_orig_matches, i_pts, j_pts, vstatus, verror, Scalar(0,255,0));
+//			imshow( "Filtered Matches", img_orig_matches );
 		}
-		int c = waitKey(0);
-		if (c=='s') {
-			imwrite("fundamental_mat_matches.png", img_orig_matches);
-		}
-		destroyWindow("Filtered Matches");
+//		int c = waitKey(0);
+//		if (c=='s') {
+//			imwrite("fundamental_mat_matches.png", img_orig_matches);
+//		}
+//		destroyWindow("Filtered Matches");
 	}
 #endif		
 #endif

@@ -13,7 +13,7 @@
   0. You just DO WHAT THE FUCK YOU WANT TO.
 
 need:
-  @ SSBA (Sparse Levenberg-Marquardt based non-linear least squares optimizer and
+  @ SSBA-3.0 (Sparse Levenberg-Marquardt based non-linear least squares optimizer and
 		  bundle adjustment implementation)
   @ opencv_contrib_3.2
   @ openmp
@@ -54,6 +54,7 @@ extern "C"{
 
 //self
 #include "common/loadmat.h"
+#include "featureMatcher/MultiCameraPnP.h"
 //cJSON key
 #define IMAGE_NUMBER "image_n"
 #define IMAGE_PATH   "image_path"
@@ -80,6 +81,7 @@ public:
 	void selectFeatureDetector();
 	//data
 	std::vector<cv::Mat > m_saveImageAll;
+	std::vector<std::string> m_imageNameAll;
 	uint saveNumber = 0;
 	QString detectorType;
 	std::vector<std::vector<cv::KeyPoint> > imgpts;

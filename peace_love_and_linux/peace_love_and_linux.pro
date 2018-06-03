@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     common/loadmat.cpp \
     SFM/featureMatcher/MultiCameraPnP.cpp \
     SFM/featureMatcher/SfMUpdateListener.cpp \
-    SFM/featureMatcher/BundleAdjuster.cpp
+    SFM/featureMatcher/BundleAdjuster.cpp \
+    SFM/featureMatcher/Visualization.cpp
 
 HEADERS  += mainwindow.h \
     calibration/calibrationwindow.h \
@@ -58,7 +59,8 @@ HEADERS  += mainwindow.h \
     common/loadmat.h \
     SFM/featureMatcher/MultiCameraPnP.h \
     SFM/featureMatcher/SfMUpdateListener.h \
-    SFM/featureMatcher/BundleAdjuster.h
+    SFM/featureMatcher/BundleAdjuster.h \
+    SFM/featureMatcher/Visualization.h
 
 LIBS += -L/usr/local/lib \
     /usr/local/lib/libopencv_core.so \
@@ -84,7 +86,91 @@ INCLUDEPATH += /home/atom/下载/opencv_contrib-3.2.0/modules/xfeatures2d/includ
 LIBS += -L/home/atom/Download/opencv-3.2.0/build/lib/ \
 #        /home/atom/Download/opencv-3.2.0/build/lib/libopencv_xfeatures2d.so
         -lopencv_xfeatures2d
+#SSBA
+INCLUDEPATH += /opt/git_Atom/SSBA
+LIBS += -L/opt/git_Atom/SSBA/build
+LIBS +=  /opt/git_Atom/SSBA/build/libV3D.a
+LIBS +=  /opt/git_Atom/SSBA/build/libcolamd.a
 
+#boost_system
+LIBS += /usr/lib/x86_64-linux-gnu/libboost_system.so.1.58.0
+LIBS += /usr/lib/x86_64-linux-gnu/libboost_thread.so
+
+LIBS += -L/usr/lib/x86_64-linux-gnu/ \
+        -lboost_system \
+        -lboost_thread \
+
+#Eigen3
+INCLUDEPATH += /usr/include/eigen3/
+
+
+
+#PCL
+INCLUDEPATH += /usr/local/pcl-1.8.0/include/pcl-1.8/
+LIBS += /usr/local/pcl-1.8.0/lib/libpcl_2d.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_common.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_features.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_filters.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_io_ply.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_io.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_kdtree.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_keypoints.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_ml.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_octree.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_outofcore.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_people.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_recognition.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_registration.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_sample_consensus.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_search.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_segmentation.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_stereo.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_surface.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_tracking.so \
+        /usr/local/pcl-1.8.0/lib/libpcl_visualization.so\
+        -L/usr/local/pcl-1.8.0/lib   -lpcl_common
+
+VTK
+INCLUDEPATH += /usr/local/vtk-6.3.0/include/vtk-6.3
+#LIBS += /usr/local/vtk-6.3.0/lib/libvtkalglib.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkCharts.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkChartsTCL.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkCommon.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkCommonTCL.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkDICOMParser.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkexoIIc.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkFiltering.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkFilteringTCL.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkftgl.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkGenericFiltering.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkGenericFilteringTCL.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkGeovis.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkGeovisTCL.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkGraphics.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkGraphicsTCL.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkHybrid.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkHybridTCL.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkImaging.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkImagingTCL.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkInfovis.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkInfovisTCL.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkIO.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkIOTCL.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkmetaio.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkParallel.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkParallelTCL.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkproj4.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkQtChart.so.5.10 \
+#        /usr/local/vtk-6.3.0/lib/libvtkRendering.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkRenderingTCL.so \
+#        /usr/local/vtk-6.3.0/lib/libvtksys.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkverdict.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkViews.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkViewsTCL.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkVolumeRendering.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkVolumeRenderingTCL.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkWidgets.so \
+#        /usr/local/vtk-6.3.0/lib/libvtkWidgetsTCL.so \
 
 
 

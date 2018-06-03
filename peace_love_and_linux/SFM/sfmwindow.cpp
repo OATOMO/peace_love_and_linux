@@ -65,6 +65,7 @@ void SFMWindow::on_openImglPushButton_clicked(){
 		QString tmpPath = tmpPath_j->valuestring;
 		cv::Mat tmpImage = cv::imread(tmpPath.toStdString());
 		m_saveImageAll.push_back(tmpImage);
+		m_imageNameAll.push_back(tmpPath.toStdString());
 	}
 
 	saveNumber = image_n;
@@ -97,18 +98,25 @@ void SFMWindow::selectFeatureDetector(){
 }
 
 void SFMWindow::on_startPushButton_clicked(){
+	QString tempMess;
 	selectFeatureDetector();
 
 	qDebug() << m_saveImageAll.size();
 	cv::cvtColor(m_saveImageAll[0],m_saveImageAll[0],cv::COLOR_BGR2GRAY);
 	cv::cvtColor(m_saveImageAll[1],m_saveImageAll[1],cv::COLOR_BGR2GRAY);
+	qDebug() << "imgpts.size() -> " << imgpts.size();
 
 	if(!detectorType.compare("SURF")){
 //		CPUSURFFeatureMatcher csfm(m_saveImageAll,imgpts);
-//		qDebug() << "imgpts.size() -> " << imgpts.size();
 //		std::vector<cv::DMatch> testMatch;
 //		csfm.MatchFeatures(2,3,&testMatch);
 
+//		cv::Ptr<MultiCameraPnP> distance = new MultiCameraPnP(images,images_names,string(argv[1]));
+		cv::Ptr< MultiCameraPnP> PnP = new MultiCameraPnP(m_saveImageAll,m_imageNameAll,cam_matrix,distortion_coeff);
+//		qDebug() << printMat(PnP->K,tempMess);
+//		qDebug() << printMat(PnP->Kinv,tempMess);
+//		qDebug() << printMat(PnP->distortion_coeff,tempMess);
+		PnP->RecoverDepthFromImages();
 
 	}//end if "SURF"
 

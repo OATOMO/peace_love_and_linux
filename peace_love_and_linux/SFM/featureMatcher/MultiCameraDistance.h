@@ -35,12 +35,7 @@ protected:
 	
 	std::map<int,cv::Matx34d> Pmats;
 
-	cv::Mat K;
-	cv::Mat_<double> Kinv;
-	
-	cv::Mat cam_matrix,distortion_coeff;
-	cv::Mat distcoeff_32f; 
-	cv::Mat K_32f;
+
 
 	std::vector<CloudPoint> pcloud;
 	std::vector<cv::Vec3b> pointCloudRGB;
@@ -50,6 +45,13 @@ protected:
 	
 	bool features_matched;
 public:
+	cv::Mat K;
+	cv::Mat_<double> Kinv;
+
+	cv::Mat cam_matrix,distortion_coeff;
+	cv::Mat distcoeff_32f;
+	cv::Mat K_32f;
+
 	bool use_rich_features;
 	bool use_gpu;
 

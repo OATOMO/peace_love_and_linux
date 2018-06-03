@@ -220,7 +220,9 @@ bool MultiCameraPnP::FindPoseEstimation(
 		cv::Mat imgPoints_m(imgPoints); imgPoints_m = imgPoints_m.t();
 		cv::Mat rvec_,t_;
 
-		cv::gpu::solvePnPRansac(ppcloud_m,imgPoints_m,K_32f,distcoeff_32f,rvec_,t_,false);
+		//atom
+//		cv::gpu::solvePnPRansac(ppcloud_m,imgPoints_m,K_32f,distcoeff_32f,rvec_,t_,false);
+//		std::cout << "not gpu :file ->" << __FILE__ << ":" <<__LINE__ << std::endl;
 
 		rvec_.convertTo(rvec,CV_64FC1);
 		t_.convertTo(t,CV_64FC1);
@@ -387,7 +389,7 @@ bool MultiCameraPnP::TriangulatePointsBetweenViews(
 								//pcloud[pt3d] - a point that has 2d reference in <view_>
 
 								//cout << "3d point "<<pt3d<<" in cloud, referenced 2d pt " << submatches[ii].queryIdx << " in view " << view_ << endl;
-#pragma omp critical 
+//#pragma omp critical
 								{
 									pcloud[pt3d].imgpt_for_img[working_view] = matches[j].trainIdx;
 									pcloud[pt3d].imgpt_for_img[older_view] = matches[j].queryIdx;
@@ -400,7 +402,7 @@ bool MultiCameraPnP::TriangulatePointsBetweenViews(
 				}
 			}
 		}
-#pragma omp critical
+//#pragma omp critical
 		{
 			if (found_in_other_view) {
 				found_other_views_count++;
@@ -448,7 +450,7 @@ void MultiCameraPnP::PruneMatchesBasedOnF() {
 #endif
 			);
 			//update flip matches as well
-#pragma omp critical
+//#pragma omp critical
 			matches_matrix[std::make_pair(working_view,older_view)] = FlipMatches(matches_matrix[std::make_pair(older_view,working_view)]);
 		}
 	}
